@@ -55,7 +55,7 @@ jobs:
         run: npm run check
 
       - name: Build Quartz
-        run: npx quartz build -d public -v
+        run: npx quartz build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
