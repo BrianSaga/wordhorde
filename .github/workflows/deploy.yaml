@@ -1,0 +1,79 @@
+name: Deploy v5 Preview
+
+on:
+  push:
+    branches:
+      - v5
+  workflow_run:
+    workflows: ["Auto-Update Submodule"]
+    types:
+      - completed
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+    deployments: write
+
+jobs:
+  deploy-v5:
+    if: ${{ github.repository == 'jackyzha0/quartz' }}
+    runs-on: ubuntu-latest
+    name: Deploy v5 to Cloudflare Pages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          # CRITICAL: This pulls your notes from the content repo
+          submodules: true 
+          # Use the PAT if your content repo is private
+          token: ${{ secrets.QUARTZ_UPDATE_TOKEN }} 
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Quartz plugins
+        uses: actions/cache@v5
+        with:
+          path: .quartz/plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-plugins-
+
+      - run: npm install
+
+      - name: Install Quartz plugins
+        run: npx quartz plugin install
+
+      - name: Check types and style
+        run: npm run check
+
+      - name: Build Quartz
+        run: npx quartz build -d docs -v
+
+      - name: Upload Pages artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: public # Ensure this points to your Quartz output directory
+
+  deploy:
+    needs: deploy-v5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
