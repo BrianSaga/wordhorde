@@ -1,8 +1,11 @@
 name: Auto-Update Submodule
-on:
-  repository_dispatch:
-    types: [content_updated]
 
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  repository_dispatch:
+    types: [submodule-update]
+  schedule:
+    - cron: '0 0 * * *' # Optional: runs daily at midnight UTC
 jobs:
   update-content:
     runs-on: ubuntu-latest
