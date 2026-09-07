@@ -1,4 +1,4 @@
 [submodule "content"]
 	path = content
-	url = https://github.com/BrianSaga/ttrpg-obsidian
+	url = https://github.com/BrianSaga/ttrpg-obsidian.git
 	branch = main
