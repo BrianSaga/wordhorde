@@ -21,9 +21,9 @@ jobs:
         with:
           fetch-depth: 0
           # CRITICAL: This pulls your notes from the content repo
-          submodules: true 
+          submodules: true
           # Use the PAT if your content repo is private
-          token: ${{ secrets.QUARTZ_UPDATE_TOKEN }} 
+          token: ${{ secrets.QUARTZ_UPDATE_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v6
