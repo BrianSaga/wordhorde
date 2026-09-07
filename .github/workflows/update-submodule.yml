@@ -14,7 +14,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.QUARTZ_UPDATE_TOKEN }} # Must use PAT to trigger the next build
-          submodules: true
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Update Submodule Pointer
         run: |
