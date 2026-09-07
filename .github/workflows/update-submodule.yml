@@ -22,10 +22,9 @@ jobs:
           git submodule update --init --recursive --remote content
           git add content
           
-          git add content
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Automated content update from notes repo"
-            git push origin v4
+            git push origin v5
           else
             echo "No changes detected."
           fi
