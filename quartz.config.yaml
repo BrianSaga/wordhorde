@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: briansaga.github.io/wordhorde
+  baseUrl: https://briansaga.github.io/wordhorde
   ignorePatterns:
     - private
     - templates
