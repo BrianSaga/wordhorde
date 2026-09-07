@@ -1,4 +1,4 @@
-import micromorph from "micromorph"
+import micromorph from "micromorph" as any
 import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
 import { fetchCanonical } from "./util"
 
