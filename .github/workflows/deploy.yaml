@@ -10,16 +10,16 @@ on:
       - completed
 
 permissions:
-    contents: read
-    pages: write
-    id-token: write
-    deployments: write
+  contents: read
+  pages: write
+  id-token: write
+  deployments: write
 
 jobs:
   deploy-v5:
     if: ${{ github.repository == 'jackyzha0/quartz' }}
     runs-on: ubuntu-latest
-    name: Deploy v5 to Cloudflare Pages
+    name: Deploy v5 to GitHub Pages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -63,9 +63,9 @@ jobs:
         run: npx quartz build -d docs -v
 
       - name: Upload Pages artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: public # Ensure this points to your Quartz output directory
+          path: docs
 
   deploy:
     needs: deploy-v5
