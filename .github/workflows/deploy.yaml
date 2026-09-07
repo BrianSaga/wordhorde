@@ -1,5 +1,4 @@
-name: Deploy v5 Preview
-
+name: Deploy v5
 on:
   push:
     branches:
